@@ -4,16 +4,16 @@ namespace A1DevPatel
 {
     public class Circle : Shape
     {
-        public double Radius { get; }
+        public double Radius { get; set; }
 
-        public Circle(double radius, double opacity) : base(opacity)
+        public Circle(int shapeId, double radius, double opacity) : base(shapeId, opacity)
         {
             Radius = radius;
         }
 
         public override double GetArea()
         {
-            return Math.PI * Radius * Radius;
+            return Math.PI * Math.Pow(Radius, 2);
         }
 
         public override double GetPerimeter()
@@ -23,7 +23,7 @@ namespace A1DevPatel
 
         public override string ToString()
         {
-            return $"Circle (ID: {ShapeId}, Radius: {Radius}, Opacity: {Opacity}, Area: {GetArea():F2}, Perimeter: {GetPerimeter():F2})";
+            return base.ToString() + $", Radius: {Radius:F2}, Area: {GetArea():F2}, Perimeter: {GetPerimeter():F2}";
         }
     }
 }

@@ -5,7 +5,8 @@ using A1DevPatel;
 
 class Program
 {
-    static List<Circle> circles = new List<Circle>();
+    static List<Shape> shapes = new List<Shape>();
+    static int nextShapeId = 1;
 
     static void Main()
     {
@@ -28,16 +29,16 @@ class Program
             switch (Console.ReadLine())
             {
                 case "1":
-                    AddCircleMenu();
+                    AddShapeMenu();
                     break;
                 case "2":
-                    EditCircleMenu();
+                    EditShapeMenu();
                     break;
                 case "3":
-                    DeleteCircleMenu();
+                    DeleteShapeMenu();
                     break;
                 case "4":
-                    ViewCircles();
+                    ViewShapes();
                     break;
                 case "5":
                     running = false;
@@ -49,118 +50,201 @@ class Program
         }
     }
 
-    static void AddCircleMenu()
+    static void AddShapeMenu()
     {
         Console.Clear();
-        Console.WriteLine("\nChoose Shape");
-        Console.WriteLine("1. Add Circle");
+        Console.WriteLine("\nChoose Shape to Add");
+        Console.WriteLine("1. Circle");
+        Console.WriteLine("2. Rectangle");
+        Console.WriteLine("3. Triangle");
+        Console.WriteLine("4. Square");
         Console.WriteLine("5. Return to Main Menu");
         Console.Write("Enter your choice: ");
 
-        if (Console.ReadLine() == "1")
+        switch (Console.ReadLine())
         {
-            Console.Write("Enter radius of Circle: ");
-            double radius = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Enter opacity (0-1): ");
-            double opacity = Convert.ToDouble(Console.ReadLine());
-
-            Circle circle = new Circle(radius, opacity);
-            circles.Add(circle);
-
-            Console.WriteLine("\nNew Circle Added!");
-            ViewCircles();
+            case "1":
+                AddCircle();
+                break;
+            case "2":
+                AddRectangle();
+                break;
+            case "3":
+                AddTriangle();
+                break;
+            case "4":
+                AddSquare();
+                break;
+            case "5":
+                return;
+            default:
+                Console.WriteLine("Invalid choice, try again.");
+                break;
         }
     }
 
-    static void EditCircleMenu()
+    static void AddCircle()
     {
-        Console.Clear();
-        Console.WriteLine("\nEdit Shape");
-        Console.WriteLine("1. Edit Circle");
-        Console.WriteLine("5. Back to Main Menu");
-        Console.Write("Enter your choice: ");
+        Console.Write("Enter radius of Circle: ");
+        double radius = Convert.ToDouble(Console.ReadLine());
 
-        if (Console.ReadLine() == "1")
-        {
-            ViewCircles();
+        Console.Write("Enter opacity (0-1): ");
+        double opacity = Convert.ToDouble(Console.ReadLine());
 
-            Console.Write("\nEnter the ID of the Circle to edit: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Circle circle = circles.Find(c => c.ShapeId == id);
+        Circle circle = new Circle(nextShapeId++, radius, opacity);
+        shapes.Add(circle);
 
-            if (circle != null)
-            {
-                Console.Write("Enter new radius: ");
-                double newRadius = Convert.ToDouble(Console.ReadLine());
-
-                Console.Write("Enter new opacity (0-1): ");
-                circle.Opacity = Convert.ToDouble(Console.ReadLine());
-
-                circles.Remove(circle);
-                circles.Add(new Circle(newRadius, circle.Opacity));
-
-                Console.WriteLine("\nCircle Updated!");
-                ViewCircles();
-            }
-            else
-            {
-                Console.WriteLine("Circle not found.");
-            }
-        }
+        // Show shapes list after adding a circle
+        Console.WriteLine("\nNew Circle Added!");
+        Console.WriteLine("Press any key to return to the Add Shape menu...");
+        ViewShapes();
+        Console.ReadKey();
+        AddShapeMenu();  // Return to Add Shape menu
     }
 
-    static void DeleteCircleMenu()
+    static void AddRectangle()
+    {
+        Console.Write("Enter length of Rectangle: ");
+        double length = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter width of Rectangle: ");
+        double width = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter opacity (0-1): ");
+        double opacity = Convert.ToDouble(Console.ReadLine());
+
+        Rectangle rectangle = new Rectangle(nextShapeId++, length, width, opacity);
+        shapes.Add(rectangle);
+
+        // Show shapes list after adding a rectangle
+        ViewShapes();
+        Console.WriteLine("\nNew Rectangle Added!");
+        Console.WriteLine("Press any key to return to the Add Shape menu...");
+        Console.ReadKey();
+        AddShapeMenu();  // Return to Add Shape menu
+    }
+
+    static void AddTriangle()
+    {
+        Console.Write("Enter SideA of Triangle: ");
+        double sideA = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter SideB of Triangle: ");
+        double sideB = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter SideC of Triangle: ");
+        double sideC = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter opacity (0-1): ");
+        double opacity = Convert.ToDouble(Console.ReadLine());
+
+        Triangle triangle = new Triangle(nextShapeId++, sideA, sideB, sideC, opacity);
+        shapes.Add(triangle);
+
+        // Show shapes list after adding a triangle
+        ViewShapes();
+        Console.WriteLine("\nNew Triangle Added!");
+        Console.WriteLine("Press any key to return to the Add Shape menu...");
+        Console.ReadKey();
+        AddShapeMenu();  // Return to Add Shape menu
+    }
+
+    static void AddSquare()
+    {
+        Console.Write("Enter side of Square: ");
+        double side = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter opacity (0-1): ");
+        double opacity = Convert.ToDouble(Console.ReadLine());
+
+        Square square = new Square(nextShapeId++, side, opacity);
+        shapes.Add(square);
+
+        // Show shapes list after adding a square
+        ViewShapes();
+        Console.WriteLine("\nNew Square Added!");
+        Console.WriteLine("Press any key to return to the Add Shape menu...");
+        Console.ReadKey();
+        AddShapeMenu();  // Return to Add Shape menu
+    }
+
+    static void EditShapeMenu()
+    {
+        //Console.Clear();
+        Console.WriteLine("\nEdit Shape");
+        ViewShapes();
+        Console.Write("Enter Shape ID to edit: ");
+        int id = Convert.ToInt32(Console.ReadLine());
+
+        Shape shape = shapes.Find(s => s.ShapeId == id);
+        if (shape == null)
+        {
+            Console.WriteLine("Shape not found!");
+            return;
+        }
+
+        Console.WriteLine("Editing " + shape.GetType().Name);
+        if (shape is Circle c)
+        {
+            Console.Write("Enter new radius: ");
+            c.Radius = Convert.ToDouble(Console.ReadLine());
+        }
+        else if (shape is Rectangle r)
+        {
+            Console.Write("Enter new length: ");
+            r.Length = Convert.ToDouble(Console.ReadLine());
+            Console.Write("Enter new width: ");
+            r.Width = Convert.ToDouble(Console.ReadLine());
+        }
+        Console.Write("Enter new opacity (0-1): ");
+        shape.Opacity = Convert.ToDouble(Console.ReadLine());
+
+        Console.WriteLine("Shape updated!");
+        ViewShapes();
+    }
+
+    static void DeleteShapeMenu()
     {
         Console.Clear();
         Console.WriteLine("\nDelete Shape");
-        Console.WriteLine("1. Delete Circle");
-        Console.WriteLine("5. Back to Main Menu");
-        Console.Write("Enter your choice: ");
+        ViewShapes();
+        Console.Write("Enter Shape ID to delete: ");
+        int id = Convert.ToInt32(Console.ReadLine());
 
-        if (Console.ReadLine() == "1")
+        Shape shape = shapes.Find(s => s.ShapeId == id);
+        if (shape == null)
         {
-            ViewCircles();
-
-            Console.Write("\nEnter the ID of the Circle to delete: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Circle circle = circles.Find(c => c.ShapeId == id);
-
-            if (circle != null)
-            {
-                circles.Remove(circle);
-                Console.WriteLine("\nCircle Deleted!");
-                ViewCircles();
-            }
-            else
-            {
-                Console.WriteLine("Circle not found.");
-            }
+            Console.WriteLine("Shape not found!");
+            return;
         }
+
+        shapes.Remove(shape);
+        Console.WriteLine("Shape deleted!");
+        ViewShapes();
     }
 
-    static void ViewCircles()
+    static void ViewShapes()
     {
-        Console.Clear();
-        Console.WriteLine("\nCircles:");
+        //Console.Clear();
+        Console.WriteLine("\nShape Details:");
 
-        if (circles.Count == 0)
-        {
-            Console.WriteLine("No circles available.");
-        }
-        else
-        {
-            var table = new ConsoleTable("ID", "Radius", "Opacity", "Area", "Perimeter");
+        var table = new ConsoleTable("ID", "Shape", "Dimensions", "Opacity", "Area", "Perimeter");
 
-            foreach (var circle in circles)
+        foreach (var shape in shapes)
+        {
+            string dimensions = shape switch
             {
-                table.AddRow(circle.ShapeId, circle.Radius, circle.Opacity, circle.GetArea().ToString("F2"), circle.GetPerimeter().ToString("F2"));
-            }
+                Circle c => $"Radius: {c.Radius}",
+                Rectangle r => $"{r.Length} x {r.Width}",
+                Triangle t => $"{t.SideA}, {t.SideB}, {t.SideC}",
+                _ => "Unknown"
+            };
 
-            table.Write();
+            table.AddRow(shape.ShapeId, shape.GetType().Name, dimensions, shape.Opacity, shape.GetArea(), shape.GetPerimeter());
         }
 
-        Console.WriteLine("\nPress any key to continue...");
+        table.Write();
+        Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
     }
 }

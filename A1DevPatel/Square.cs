@@ -2,28 +2,27 @@
 
 namespace A1DevPatel
 {
-    public class Square : Shape
+    public class Square : Rectangle
     {
-        public double Side { get; set; }
-
-        public Square(double side, double opacity) : base(opacity)
+        public double Side
         {
-            Side = side;
+            get => Length;  // Length property is inherited from Rectangle
+            set
+            {
+                Length = value;
+                Width = value; // Ensuring width remains the same
+            }
         }
 
-        public override double GetArea()
+        public Square(int shapeId, double side, double opacity)
+    : base(shapeId, side, side, opacity) // Provide both length and width
         {
-            return Side * Side;
         }
 
-        public override double GetPerimeter()
-        {
-            return 4*Side;
-        }
 
         public override string ToString()
         {
-            return $"Square - ID: {ShapeId}, Side: {Side}, Opacity: {Opacity}, Area: {GetArea():F2}";
+            return base.ToString() + $", Side Length: {Length:F2}";
         }
     }
 }

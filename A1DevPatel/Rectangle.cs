@@ -7,7 +7,7 @@ namespace A1DevPatel
         public double Length { get; set; }
         public double Width { get; set; }
 
-        public Rectangle(double length, double width, double opacity) : base(opacity)
+        public Rectangle(int shapeId, double length, double width, double opacity) : base(shapeId, opacity)
         {
             Length = length;
             Width = width;
@@ -25,7 +25,7 @@ namespace A1DevPatel
 
         public override string ToString()
         {
-            return $"Rectangle - ID: {ShapeId}, Length: {Length}, Width: {Width}, Opacity: {Opacity}, Area: {GetArea():F2}";
+            return base.ToString() + $", Length: {Length:F2}, Width: {Width:F2}, Area: {GetArea():F2}, Perimeter: {GetPerimeter():F2}";
         }
     }
 }

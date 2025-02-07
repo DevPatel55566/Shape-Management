@@ -1,31 +1,34 @@
-﻿using System;
+﻿    using System;
 
-namespace A1DevPatel
-{
-    public class Triangle : Shape
+    namespace A1DevPatel
     {
-        public double BaseLength { get; set; }
-        public double Height { get; set; }
-
-        public Triangle(double baseLength, double height, double opacity) : base(opacity)
+        public class Triangle : Shape
         {
-            BaseLength = baseLength;
-            Height = height;
-        }
+            public double SideA { get; set; }
+            public double SideB { get; set; }
+            public double SideC { get; set; }
 
-        public override double GetArea()
-        {
-            return 0.5 * BaseLength * Height;
-        }
+            public Triangle(int shapeId, double sideA, double sideB, double sideC, double opacity) : base(shapeId, opacity)
+            {
+                SideA = sideA;
+                SideB = sideB;
+                SideC = sideC;
+            }
 
-        public override double GetPerimeter()
-        {
-            return BaseLength + Height;
-        }
+            public override double GetArea()
+            {
+                double s = (SideA + SideB + SideC) / 2;
+                return Math.Sqrt(s * (s - SideA) * (s - SideB) * (s - SideC));
+            }
 
-        public override string ToString()
-        {
-            return $"Triangle - ID: {ShapeId}, Base: {BaseLength}, Height: {Height}, Opacity: {Opacity}, Area: {GetArea():F2}";
+            public override double GetPerimeter()
+            {
+                return SideA + SideB + SideC;
+            }
+
+            public override string ToString()
+            {
+                return base.ToString() + $", Sides: {SideA:F2}, {SideB:F2}, {SideC:F2}, Area: {GetArea():F2}, Perimeter: {GetPerimeter():F2}";
+            }
         }
     }
-}
