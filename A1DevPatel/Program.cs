@@ -10,20 +10,19 @@ class Program
 
     static void Main()
     {
-        Console.WriteLine("Assignment#1 - Dev Patel");
-        Console.WriteLine("Assignment#2 - ID 991740023");
-        Console.WriteLine("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
 
         bool running = true;
         while (running)
         {
             Console.Clear();
-            Console.WriteLine("\nMain Menu");
-            Console.WriteLine("1. Add Shape");
-            Console.WriteLine("2. Edit Shape");
-            Console.WriteLine("3. Delete Shape");
-            Console.WriteLine("4. View Shapes");
-            Console.WriteLine("5. Exit");
+            Header();
+            Console.WriteLine("\tMain Menu\n");
+            Console.WriteLine("\t1. Add Shape");
+            Console.WriteLine("\t2. Edit Shape");
+            Console.WriteLine("\t3. Delete Shape");
+            Console.WriteLine("\t4. View Shapes");
+            Console.WriteLine("\t5. Exit");
             Console.Write("Enter your choice: ");
 
             switch (Console.ReadLine())
@@ -53,12 +52,13 @@ class Program
     static void AddShapeMenu()
     {
         Console.Clear();
-        Console.WriteLine("\nChoose Shape to Add");
-        Console.WriteLine("1. Circle");
-        Console.WriteLine("2. Rectangle");
-        Console.WriteLine("3. Triangle");
-        Console.WriteLine("4. Square");
-        Console.WriteLine("5. Return to Main Menu");
+        Header();
+        Console.WriteLine("\tChoose a Shape to Add\n");
+        Console.WriteLine("\t1. Add Circle");
+        Console.WriteLine("\t2. Add Rectangle");
+        Console.WriteLine("\t3. Add Triangle");
+        Console.WriteLine("\t4. Add Square");
+        Console.WriteLine("\t5. Return to main menu\n");
         Console.Write("Enter your choice: ");
 
         switch (Console.ReadLine())
@@ -96,9 +96,7 @@ class Program
 
         // Show shapes list after adding a circle
         Console.WriteLine("\nNew Circle Added!");
-        Console.WriteLine("Press any key to return to the Add Shape menu...");
         ViewShapes();
-        Console.ReadKey();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
@@ -117,10 +115,9 @@ class Program
         shapes.Add(rectangle);
 
         // Show shapes list after adding a rectangle
-        ViewShapes();
+        //ViewShapes();
         Console.WriteLine("\nNew Rectangle Added!");
-        Console.WriteLine("Press any key to return to the Add Shape menu...");
-        Console.ReadKey();
+        ViewShapes();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
@@ -142,10 +139,8 @@ class Program
         shapes.Add(triangle);
 
         // Show shapes list after adding a triangle
-        ViewShapes();
         Console.WriteLine("\nNew Triangle Added!");
-        Console.WriteLine("Press any key to return to the Add Shape menu...");
-        Console.ReadKey();
+        ViewShapes();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
@@ -161,22 +156,21 @@ class Program
         shapes.Add(square);
 
         // Show shapes list after adding a square
+        Console.WriteLine("\nNew Rectangle Added!");
         ViewShapes();
-        Console.WriteLine("\nNew Square Added!");
-        Console.WriteLine("Press any key to return to the Add Shape menu...");
-        Console.ReadKey();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
     static void EditShapeMenu()
     {
         Console.Clear();
-        Console.WriteLine("\nChoose Shape to Edit");
-        Console.WriteLine("1. Edit Circle");
-        Console.WriteLine("2. Edit Rectangle");
-        Console.WriteLine("3. Edit Triangle");
-        Console.WriteLine("4. Edit Square");
-        Console.WriteLine("5. Return to Main Menu");
+        Header();
+        Console.WriteLine("\tChoose a Shape to Edit\n");
+        Console.WriteLine("\t1. Edit Circle");
+        Console.WriteLine("\t2. Edit Rectangle");
+        Console.WriteLine("\t3. Edit Triangle");
+        Console.WriteLine("\t4. Edit Square");
+        Console.WriteLine("\t5. Return to main menu\n");
         Console.Write("Enter your choice: ");
 
         switch (Console.ReadLine())
@@ -248,7 +242,6 @@ class Program
             ViewShapes();
             Console.ReadKey();
             EditShapeMenu();
-
         }
 
         static void EditTriangle()
@@ -303,26 +296,117 @@ class Program
 
         Console.WriteLine("Shape updated!");
         ViewShapes();
+        EditShapeMenu();
     }
 
     static void DeleteShapeMenu()
     {
         Console.Clear();
-        Console.WriteLine("\nDelete Shape");
-        ViewShapes();
-        Console.Write("Enter Shape ID to delete: ");
-        int id = Convert.ToInt32(Console.ReadLine());
+        Header();
+        Console.WriteLine("\tChoose a Shape to Delete\n");
+        Console.WriteLine("\t1. Delete Circle");
+        Console.WriteLine("\t2. Delete Rectangle");
+        Console.WriteLine("\t3. Delete Triangle");
+        Console.WriteLine("\t4. Delete Square");
+        Console.WriteLine("\t5. Return to main menu\n");
+        Console.Write("Enter your choice: ");
 
-        Shape shape = shapes.Find(s => s.ShapeId == id);
-        if (shape == null)
+        switch (Console.ReadLine())
         {
-            Console.WriteLine("Shape not found!");
-            return;
+            case "1":
+                DeleteCircle();
+                break;
+            case "2":
+                DeleteRectangle();
+                break;
+            case "3":
+                DeleteTriangle();
+                break;
+            case "4":
+                DeleteSquare();
+                break;
+            case "5":
+                return;
+            default:
+                Console.WriteLine("Invalid choice, try again.");
+                break;
         }
 
-        shapes.Remove(shape);
-        Console.WriteLine("Shape deleted!");
-        ViewShapes();
+        static void DeleteCircle()
+        {
+            Console.Write("Enter ID to Delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Circle circle = shapes.Find(s => s.ShapeId == id) as Circle;
+            if (circle != null)
+            {
+                shapes.Remove(circle);
+                Console.WriteLine("Circle deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Circle not found!");
+            }
+            ViewShapes();
+            Console.ReadKey();
+            DeleteShapeMenu();
+        }
+
+        static void DeleteRectangle()
+        {
+            Console.Write("Enter ID to Delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Rectangle rectangle = shapes.Find(s => s.ShapeId == id) as Rectangle;
+            if (rectangle != null)
+            {
+                shapes.Remove(rectangle);
+                Console.WriteLine("Rectangle deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Rectangle not found!");
+            }
+            ViewShapes();
+            Console.ReadKey();
+            DeleteShapeMenu();
+        }
+
+        static void DeleteTriangle()
+        {
+            Console.Write("Enter ID to Delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Triangle triangle = shapes.Find(s => s.ShapeId == id) as Triangle;
+            if (triangle != null)
+            {
+                shapes.Remove(triangle);
+                Console.WriteLine("Triangle deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Triangle not found!");
+            }
+            ViewShapes();
+            Console.ReadKey();
+            DeleteShapeMenu();
+        }
+
+        static void DeleteSquare()
+        {
+            Console.Write("Enter ID to Delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Square square = shapes.Find(s => s.ShapeId == id) as Square;
+            if (square != null)
+            {
+                shapes.Remove(square);
+                Console.WriteLine("Square deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Square not found!");
+            }
+            ViewShapes();
+            Console.ReadKey();
+            DeleteShapeMenu();
+        }
     }
 
     static void ViewShapes()
@@ -355,5 +439,12 @@ class Program
         table.Write();
         Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
+    }
+
+    static void Header()
+    {
+        Console.WriteLine("Assignment#1 - Dev Patel");
+        Console.WriteLine("Assignment#2 - ID 991740023");
+        Console.WriteLine("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
     }
 }
