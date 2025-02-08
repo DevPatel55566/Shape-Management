@@ -6,23 +6,20 @@ namespace A1DevPatel
     {
         public double Side
         {
-            get => Length;  // Length property is inherited from Rectangle
+            get => Length;  // Get the Length property from Rectangle
             set
             {
                 Length = value;
-                Width = value; // Ensuring width remains the same
+                Width = value; // Ensure Width stays equal to Length
             }
         }
 
         public Square(int shapeId, double side, double opacity)
-    : base(shapeId, side, side, opacity) // Provide both length and width
-        {
-        }
-
+            : base(shapeId, side, side, opacity) { }
 
         public override string ToString()
         {
-            return base.ToString() + $", Side Length: {Length:F2}";
+            return base.ToString() + $", Side Length: {Side:F2}";
         }
     }
 }

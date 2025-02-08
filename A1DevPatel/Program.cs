@@ -11,7 +11,7 @@ class Program
     static void Main()
     {
 
-
+        SampleData();
         bool running = true;
         while (running)
         {
@@ -47,6 +47,14 @@ class Program
                     break;
             }
         }
+    }
+
+    static void SampleData()
+    {
+        shapes.Add(new Circle(nextShapeId++, 5, 0.8));
+        shapes.Add(new Rectangle(nextShapeId++, 4, 6, 0.7));
+        shapes.Add(new Triangle(nextShapeId++, 3, 4, 5, 0.6));
+        shapes.Add(new Square(nextShapeId++, 4, 0.9));
     }
 
     static void AddShapeMenu()
@@ -85,8 +93,7 @@ class Program
 
     static void AddCircle()
     {
-        Console.Write("Enter radius of Circle: ");
-        double radius = Convert.ToDouble(Console.ReadLine());
+        double radius = ValidUserInput("Enter radius of Circle: ");
 
         Console.Write("Enter opacity (0-1): ");
         double opacity = Convert.ToDouble(Console.ReadLine());
@@ -96,18 +103,16 @@ class Program
 
         // Show shapes list after adding a circle
         Console.WriteLine("\nNew Circle Added!");
-        ViewShapes();
+        ViewShapesByType<Circle>();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
     static void AddRectangle()
     {
-        Console.Write("Enter length of Rectangle: ");
-        double length = Convert.ToDouble(Console.ReadLine());
+        double length = ValidUserInput("Enter length of rectangle: ");
 
-        Console.Write("Enter width of Rectangle: ");
-        double width = Convert.ToDouble(Console.ReadLine());
-
+        double width = ValidUserInput("Enter width of rectangle: ");
+        
         Console.Write("Enter opacity (0-1): ");
         double opacity = Convert.ToDouble(Console.ReadLine());
 
@@ -117,20 +122,17 @@ class Program
         // Show shapes list after adding a rectangle
         //ViewShapes();
         Console.WriteLine("\nNew Rectangle Added!");
-        ViewShapes();
+        ViewShapesByType<Rectangle>();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
     static void AddTriangle()
     {
-        Console.Write("Enter SideA of Triangle: ");
-        double sideA = Convert.ToDouble(Console.ReadLine());
+        double sideA = ValidUserInput("Enter 1st side of triangle: ");
 
-        Console.Write("Enter SideB of Triangle: ");
-        double sideB = Convert.ToDouble(Console.ReadLine());
+        double sideB = ValidUserInput("Enter 2nd side of triangle: ");
 
-        Console.Write("Enter SideC of Triangle: ");
-        double sideC = Convert.ToDouble(Console.ReadLine());
+        double sideC = ValidUserInput("Enter 3rd side of triangle: ");
 
         Console.Write("Enter opacity (0-1): ");
         double opacity = Convert.ToDouble(Console.ReadLine());
@@ -140,14 +142,13 @@ class Program
 
         // Show shapes list after adding a triangle
         Console.WriteLine("\nNew Triangle Added!");
-        ViewShapes();
+        ViewShapesByType<Triangle>();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
     static void AddSquare()
     {
-        Console.Write("Enter side of Square: ");
-        double side = Convert.ToDouble(Console.ReadLine());
+        double side = ValidUserInput("Enter the side of square: ");
 
         Console.Write("Enter opacity (0-1): ");
         double opacity = Convert.ToDouble(Console.ReadLine());
@@ -157,7 +158,7 @@ class Program
 
         // Show shapes list after adding a square
         Console.WriteLine("\nNew Rectangle Added!");
-        ViewShapes();
+        ViewShapesByType<Square>();
         AddShapeMenu(); // Return to Add Shape menu
     }
 
@@ -170,7 +171,9 @@ class Program
         Console.WriteLine("\t2. Edit Rectangle");
         Console.WriteLine("\t3. Edit Triangle");
         Console.WriteLine("\t4. Edit Square");
-        Console.WriteLine("\t5. Return to main menu\n");
+        Console.WriteLine("\t5. Return to main menu\n\n");
+        Console.WriteLine("Note: Shape ID cannot be edited. It must remain unique.");
+
         Console.Write("Enter your choice: ");
 
         switch (Console.ReadLine())
@@ -196,7 +199,7 @@ class Program
 
         static void EditCircle()
         {
-            ViewShapes();
+            ViewShapesByType<Circle>();
             // Console.ReadKey();
             Console.Write("Enter ID to edit: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -214,13 +217,15 @@ class Program
                 Console.WriteLine("Circle with this ID not found!");
             }
 
-            ViewShapes();
+            ViewShapesByType<Circle>();
             Console.ReadKey();
             EditShapeMenu();
         }
 
         static void EditRectangle()
         {
+            ViewShapesByType<Rectangle>();
+
             Console.Write("Enter ID to edit: ");
             int id = Convert.ToInt32(Console.ReadLine());
             Rectangle rectangle = shapes.Find(s => s.ShapeId == id) as Rectangle;
@@ -238,14 +243,15 @@ class Program
             {
                 Console.WriteLine("Rectangle with this ID not found!");
             }
+            ViewShapesByType<Rectangle>();
 
-            ViewShapes();
             Console.ReadKey();
             EditShapeMenu();
         }
 
         static void EditTriangle()
         {
+            ViewShapesByType<Triangle>();
             Console.Write("Enter ID to edit: ");
             int id = Convert.ToInt32(Console.ReadLine());
             Triangle triangle = shapes.Find(s => s.ShapeId == id) as Triangle;
@@ -266,13 +272,14 @@ class Program
                 Console.WriteLine("Triangle with this ID not found!");
             }
 
-            ViewShapes();
+            ViewShapesByType<Triangle>();
             EditShapeMenu();
             Console.ReadKey();
         }
 
         static void EditSquare()
         {
+            ViewShapesByType<Square>();
             Console.Write("Enter ID to edit: ");
             int id = Convert.ToInt32(Console.ReadLine());
             Square square = shapes.Find(s => s.ShapeId == id) as Square;
@@ -288,8 +295,8 @@ class Program
             {
                 Console.WriteLine("Square with this ID not found!");
             }
+            ViewShapesByType<Square>();
 
-            ViewShapes();
             EditShapeMenu();
             Console.ReadKey();
         }
@@ -308,7 +315,7 @@ class Program
         Console.WriteLine("\t2. Delete Rectangle");
         Console.WriteLine("\t3. Delete Triangle");
         Console.WriteLine("\t4. Delete Square");
-        Console.WriteLine("\t5. Return to main menu\n");
+        Console.WriteLine("\t5. Return to main menu");
         Console.Write("Enter your choice: ");
 
         switch (Console.ReadLine())
@@ -346,7 +353,7 @@ class Program
             {
                 Console.WriteLine("Circle not found!");
             }
-            ViewShapes();
+            ViewShapesByType<Circle>();
             Console.ReadKey();
             DeleteShapeMenu();
         }
@@ -365,7 +372,7 @@ class Program
             {
                 Console.WriteLine("Rectangle not found!");
             }
-            ViewShapes();
+            ViewShapesByType<Rectangle>();
             Console.ReadKey();
             DeleteShapeMenu();
         }
@@ -384,7 +391,8 @@ class Program
             {
                 Console.WriteLine("Triangle not found!");
             }
-            ViewShapes();
+            ViewShapesByType<Triangle>();
+
             Console.ReadKey();
             DeleteShapeMenu();
         }
@@ -403,16 +411,30 @@ class Program
             {
                 Console.WriteLine("Square not found!");
             }
-            ViewShapes();
+            ViewShapesByType<Square>();
+
             Console.ReadKey();
             DeleteShapeMenu();
+        }
+    }
+
+    static double ValidUserInput(string prompt = "Enter a number: ")
+    {
+        double value;
+        while (true)
+        {
+            Console.Write(prompt);
+            if (double.TryParse(Console.ReadLine(), out value) && value > 0)
+                return value;
+
+            Console.WriteLine("Invalid input! Please enter a positive number.");
         }
     }
 
     static void ViewShapes()
     {
         //Console.Clear();
-        Console.WriteLine("\nShape Details:");
+        Console.WriteLine("\nAll Shapes:");
 
         var table = new ConsoleTable("ID", "Shape", "Dimensions", "Opacity", "Area", "Perimeter");
 
@@ -420,26 +442,78 @@ class Program
         {
             string dimensions = shape switch
             {
-                Circle c => $" {c.Radius}",
-                Rectangle r => $"{r.Length} x {r.Width}",
-                Triangle t => $"{t.SideA}, {t.SideB}, {t.SideC}",
-                _ => "Unknown",
+                Square s => $"s={s.Side:F2}",
+                Circle c => $"r={c.Radius:F2}",
+                Rectangle r => $"l={r.Length:F2}, w={r.Width:F2}",
+                Triangle t => $"a={t.SideA:F2}, b={t.SideB:F2}, c={t.SideC:F2}",
+                _ => "Unknown"
             };
 
             table.AddRow(
                 shape.ShapeId,
                 shape.GetType().Name,
                 dimensions,
-                shape.Opacity,
-                shape.GetArea(),
-                shape.GetPerimeter()
+                $"{shape.Opacity:P2}",
+                $"{shape.GetArea():F2}",
+                $"{shape.GetPerimeter():F2}"
             );
         }
 
-        table.Write();
-        Console.WriteLine("Press any key to continue...");
+        if (shapes.Count == 0)
+        {
+            Console.WriteLine("No shapes found.");
+        }
+        else
+        {
+            table.Write();
+        }
+
+        Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
     }
+
+    static void ViewShapesByType<T>() where T : Shape
+    {
+        //Console.Clear();
+        string shapeName = typeof(T).Name;
+        var filteredShapes = shapes.OfType<T>().ToList(); // Filter shapes of specific type
+
+        if (!filteredShapes.Any())
+        {
+            Console.WriteLine($"No {shapeName}s found.");
+        }
+        else
+        {
+            Console.WriteLine($"\nList of {shapeName}s:");
+            var table = new ConsoleTable("ID", "Dimensions", "Opacity", "Area", "Perimeter");
+
+            foreach (var shape in filteredShapes)
+            {
+                string dimensions = shape switch
+                {
+                    Square s => $"s={s.Side:F2}",
+                    Circle c => $"r={c.Radius:F2}",
+                    Rectangle r => $"l={r.Length:F2}, w={r.Width:F2}",
+                    Triangle t => $"a={t.SideA:F2}, b={t.SideB:F2}, c={t.SideC:F2}",
+                    _ => "Unknown"
+                };
+
+                table.AddRow(
+                    shape.ShapeId,
+                    dimensions,
+                    $"{shape.Opacity:P2}",
+                    $"{shape.GetArea():F2}",
+                    $"{shape.GetPerimeter():F2}"
+                );
+            }
+            table.Write();
+        }
+
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
+    }
+
+
 
     static void Header()
     {
