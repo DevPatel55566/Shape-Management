@@ -95,8 +95,7 @@ class Program
     {
         double radius = ValidUserInput("Enter radius of Circle: ");
 
-        Console.Write("Enter opacity (0-1): ");
-        double opacity = Convert.ToDouble(Console.ReadLine());
+        double opacity = ValidOpacityInput();
 
         Circle circle = new Circle(nextShapeId++, radius, opacity);
         shapes.Add(circle);
@@ -112,9 +111,8 @@ class Program
         double length = ValidUserInput("Enter length of rectangle: ");
 
         double width = ValidUserInput("Enter width of rectangle: ");
-        
-        Console.Write("Enter opacity (0-1): ");
-        double opacity = Convert.ToDouble(Console.ReadLine());
+
+        double opacity = ValidOpacityInput();
 
         Rectangle rectangle = new Rectangle(nextShapeId++, length, width, opacity);
         shapes.Add(rectangle);
@@ -134,8 +132,7 @@ class Program
 
         double sideC = ValidUserInput("Enter 3rd side of triangle: ");
 
-        Console.Write("Enter opacity (0-1): ");
-        double opacity = Convert.ToDouble(Console.ReadLine());
+        double opacity = ValidOpacityInput();
 
         Triangle triangle = new Triangle(nextShapeId++, sideA, sideB, sideC, opacity);
         shapes.Add(triangle);
@@ -150,8 +147,7 @@ class Program
     {
         double side = ValidUserInput("Enter the side of square: ");
 
-        Console.Write("Enter opacity (0-1): ");
-        double opacity = Convert.ToDouble(Console.ReadLine());
+        double opacity = ValidOpacityInput();
 
         Square square = new Square(nextShapeId++, side, opacity);
         shapes.Add(square);
@@ -206,10 +202,9 @@ class Program
             Circle circle = shapes.Find(s => s.ShapeId == id) as Circle;
             if (circle != null)
             {
-                Console.Write("Enter new radius: ");
-                circle.Radius = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new opacity: ");
-                circle.Opacity = Convert.ToDouble(Console.ReadLine());
+                double radius = ValidUserInput("Enter new radius of Circle: ");
+
+                double opacity = ValidOpacityInput();
                 Console.WriteLine("Circle updated!");
             }
             else
@@ -231,12 +226,9 @@ class Program
             Rectangle rectangle = shapes.Find(s => s.ShapeId == id) as Rectangle;
             if (rectangle != null)
             {
-                Console.Write("Enter new length: ");
-                rectangle.Length = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new width: ");
-                rectangle.Width = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new opacity: ");
-                rectangle.Opacity = Convert.ToDouble(Console.ReadLine());
+                double length = ValidUserInput("Enter new length of rectangle: ");
+                double width = ValidUserInput("Enter width of rectangle: ");
+                double opacity = ValidOpacityInput();
                 Console.WriteLine("Rectangle updated!");
             }
             else
@@ -257,14 +249,13 @@ class Program
             Triangle triangle = shapes.Find(s => s.ShapeId == id) as Triangle;
             if (triangle != null)
             {
-                Console.Write("Enter new SideA: ");
-                triangle.SideA = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new SideB: ");
-                triangle.SideB = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new SideC: ");
-                triangle.SideC = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new opacity: ");
-                triangle.Opacity = Convert.ToDouble(Console.ReadLine());
+                double sideA = ValidUserInput("Enter sideA of triangle: ");
+
+                double sideB = ValidUserInput("Enter sideB of triangle: ");
+
+                double sideC = ValidUserInput("Enter sideC of triangle: ");
+
+                double opacity = ValidOpacityInput();
                 Console.WriteLine("Triangle updated!");
             }
             else
@@ -285,10 +276,9 @@ class Program
             Square square = shapes.Find(s => s.ShapeId == id) as Square;
             if (square != null)
             {
-                Console.Write("Enter new side: ");
-                square.Side = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Enter new opacity: ");
-                square.Opacity = Convert.ToDouble(Console.ReadLine());
+                double side = ValidUserInput("Enter side of Square: ");
+
+                double opacity = ValidOpacityInput();
                 Console.WriteLine("Square updated!");
             }
             else
@@ -430,6 +420,20 @@ class Program
             Console.WriteLine("Invalid input! Please enter a positive number.");
         }
     }
+
+    static double ValidOpacityInput(string prompt = "Enter opacity (0-1): ")
+    {
+        double opacity;
+        while (true)
+        {
+            Console.Write(prompt);
+            if (double.TryParse(Console.ReadLine(), out opacity) && opacity >= 0 && opacity <= 1)
+                return opacity;
+
+            Console.WriteLine("Invalid input! Please enter a value between 0 and 1.");
+        }
+    }
+
 
     static void ViewShapes()
     {

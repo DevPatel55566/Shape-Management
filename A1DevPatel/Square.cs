@@ -6,11 +6,11 @@ namespace A1DevPatel
     {
         public double Side
         {
-            get => Length;  // Get the Length property from Rectangle
+            get => Length;  
             set
             {
                 Length = value;
-                Width = value; // Ensure Width stays equal to Length
+                Width = value;
             }
         }
 
