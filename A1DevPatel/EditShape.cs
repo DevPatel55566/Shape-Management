@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace A1DevPatel
 {
@@ -17,176 +15,87 @@ namespace A1DevPatel
             Console.WriteLine("\t3. Edit Triangle");
             Console.WriteLine("\t4. Edit Square");
             Console.WriteLine("\t5. Return to main menu\n");
-
             Console.Write("Enter your choice: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    EditCircle();
+                    EditShapeByType<Circle>();
                     break;
                 case "2":
-                    EditRectangle();
+                    EditShapeByType<Rectangle>();
                     break;
                 case "3":
-                    EditTriangle();
+                    EditShapeByType<Triangle>();
                     break;
                 case "4":
-                    EditSquare();
+                    EditShapeByType<Square>();
                     break;
                 case "5":
                     return;
                 default:
-                    Console.WriteLine("Invalid");
+                    Console.WriteLine("Invalid choice!");
+                    Console.ReadKey();
+                    EditShapeMenu();
                     break;
             }
         }
 
-        static void EditCircle()
+        private static void EditShapeByType<T>() where T : Shape
         {
             try
             {
-                ViewShape.ViewShapesByType<Circle>();
+                ViewShape.ViewShapesByType<T>();
                 Console.Write("Enter ID to edit: ");
+
                 if (int.TryParse(Console.ReadLine(), out int id))
                 {
-                    Circle circle = Program.shapes.Find(s => s.ShapeId == id) as Circle;
-                    if (circle != null)
+                    Shape shape = Program.shapes.OfType<T>().FirstOrDefault(s => s.ShapeId == id);
+                    if (shape != null)
                     {
-                        double radius = AddShape.ValidUserInput("Enter new radius of Circle: ");
-                        double opacity = AddShape.ValidOpacityInput();
-                        circle.Radius = radius;
-                        circle.Opacity = opacity;
-                        Console.WriteLine("Circle updated!");
+                        UpdateShapeProperties(shape);
+                        Console.WriteLine($"{typeof(T).Name} updated!");
                     }
                     else
                     {
-                        Console.WriteLine("Circle not found!");
+                        Console.WriteLine($"{typeof(T).Name} not found!");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid ");
+                    Console.WriteLine("Invalid input!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"error: {ex.Message}");
+                Console.WriteLine($"Error: {e.Message}");
             }
-            ViewShape.ViewShapesByType<Circle>();
+            ViewShape.ViewShapesByType<T>();
             Console.ReadKey();
             EditShapeMenu();
         }
 
-        static void EditRectangle()
+        private static void UpdateShapeProperties(Shape shape)
         {
-            try
+            switch (shape)
             {
-                ViewShape.ViewShapesByType<Rectangle>();
-                Console.Write("Enter rectangle to edit: ");
-                if (int.TryParse(Console.ReadLine(), out int id))
-                {
-                    Rectangle rectangle = Program.shapes.Find(s => s.ShapeId == id) as Rectangle;
-                    if (rectangle != null)
-                    {
-                        double length = AddShape.ValidUserInput("Enter new length of rectangle: ");
-                        double width = AddShape.ValidUserInput("Enter new width of rectangle: ");
-                        rectangle.Length = length;
-                        rectangle.Width = width;
-                        rectangle.Opacity = AddShape.ValidOpacityInput();
-                        Console.WriteLine("Rectangle updated!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Rectangle not found!");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid ");
-                }
+                case Square square:
+                    square.Side = AddShape.GetDoubleInput("Enter new side of Square: ");
+                    break;
+                case Circle circle:
+                    circle.Radius = AddShape.GetDoubleInput("Enter new radius of Circle: ");
+                    break;
+                case Rectangle rectangle:
+                    rectangle.Length = AddShape.GetDoubleInput("Enter new length of Rectangle: ");
+                    rectangle.Width = AddShape.GetDoubleInput("Enter new width of Rectangle: ");
+                    break;
+                case Triangle triangle:
+                    triangle.SideA = AddShape.GetDoubleInput("Enter new Side A of Triangle: ");
+                    triangle.SideB = AddShape.GetDoubleInput("Enter new Side B of Triangle: ");
+                    triangle.SideC = AddShape.GetDoubleInput("Enter new Side C of Triangle: ");
+                    break;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            ViewShape.ViewShapesByType<Rectangle>();
-            Console.ReadKey();
-            EditShapeMenu();
-        }
-
-        static void EditTriangle()
-        {
-            try
-            {
-                ViewShape.ViewShapesByType<Triangle>();
-                Console.Write("Enter ID to edit: ");
-                if (int.TryParse(Console.ReadLine(), out int id))
-                {
-                    Triangle triangle = Program.shapes.Find(s => s.ShapeId == id) as Triangle;
-                    if (triangle != null)
-                    {
-                        double sideA = AddShape.ValidUserInput("Enter new sideA of triangle: ");
-                        double sideB = AddShape.ValidUserInput("Enter new sideB of triangle: ");
-                        double sideC = AddShape.ValidUserInput("Enter new sideC of triangle: ");
-                        triangle.SideA = sideA;
-                        triangle.SideB = sideB;
-                        triangle.SideC = sideC;
-                        triangle.Opacity = AddShape.ValidOpacityInput();
-                        Console.WriteLine("Triangle updated!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Triangle not found!");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            ViewShape.ViewShapesByType<Triangle>();
-            Console.ReadKey();
-            EditShapeMenu();
-        }
-
-        static void EditSquare()
-        {
-            try
-            {
-                ViewShape.ViewShapesByType<Square>();
-                Console.Write("Enter ID to edit: ");
-                if (int.TryParse(Console.ReadLine(), out int id))
-                {
-                    Square square = Program.shapes.Find(s => s.ShapeId == id) as Square;
-                    if (square != null)
-                    {
-                        double side = AddShape.ValidUserInput("Enter new side of Square: ");
-                        square.Side = side;
-                        square.Opacity = AddShape.ValidOpacityInput();
-                        Console.WriteLine("Square updated!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Square not found!");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            ViewShape.ViewShapesByType<Square>();
-            Console.ReadKey();
-            EditShapeMenu();
+            shape.Opacity = AddShape.GetOpacityValue();
         }
     }
 }

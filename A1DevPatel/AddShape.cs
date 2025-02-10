@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace A1DevPatel
 {
@@ -16,111 +13,61 @@ namespace A1DevPatel
             Console.WriteLine("\t2. Add Rectangle");
             Console.WriteLine("\t3. Add Triangle");
             Console.WriteLine("\t4. Add Square");
-            Console.WriteLine("\t5. Return to main menu\n");
+            Console.WriteLine("\t5. Back to main menu\n");
             Console.Write("Enter your choice: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    AddCircle();
+                    AddShapeToList<Circle>();
                     break;
                 case "2":
-                    AddRectangle();
+                    AddShapeToList<Rectangle>();
                     break;
                 case "3":
-                    AddTriangle();
+                    AddShapeToList<Triangle>();
                     break;
                 case "4":
-                    AddSquare();
+                    AddShapeToList<Square>();
                     break;
                 case "5":
                     return;
                 default:
-                    Console.WriteLine("Invalid");
+                    Console.WriteLine("Invalid selection.");
                     break;
             }
         }
 
-        static void AddCircle()
+        private static void AddShapeToList<T>() where T : Shape
         {
             try
             {
-                double radius = ValidUserInput("Enter radius of Circle: ");
-                double opacity = ValidOpacityInput();
-                Circle circle = new Circle(Program.nextShapeId++, radius, opacity);
-                Program.shapes.Add(circle);
+                double opacity = GetOpacityValue();
 
-                Console.WriteLine("\nNew Circle Added!");
-                ViewShape.ViewShapesByType<Circle>();
+                Shape newShape = typeof(T) switch
+                {
+                    Type t when t == typeof(Circle) => new Circle(Program.nextShapeId++, GetDoubleInput("Enter radius: "), opacity),
+                    Type t when t == typeof(Rectangle) => new Rectangle(Program.nextShapeId++, GetDoubleInput("Enter length: "), GetDoubleInput("Enter width: "), opacity),
+                    Type t when t == typeof(Triangle) => new Triangle(Program.nextShapeId++, GetDoubleInput("Enter 1st side: "), GetDoubleInput("Enter 2nd side: "), GetDoubleInput("Enter 3rd side: "), opacity),
+                    Type t when t == typeof(Square) => new Square(Program.nextShapeId++, GetDoubleInput("Enter side: "), opacity),
+                    _ => throw new InvalidOperationException("Invalid shape type.")
+                };
+
+                Program.shapes.Add(newShape);
+                Console.WriteLine($"\nNew {typeof(T).Name} Added!");
+                ViewShape.ViewShapesByType<T>();
+                Console.WriteLine("\nPress any key to return to the menu...");
+                Console.ReadKey();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"error : {ex.Message}");
+                Console.WriteLine($"Error: {e.Message}");
             }
-            AddShapeMenu(); // Return to Add Shape menu
+
+            AddShapeMenu();
         }
 
-        static void AddRectangle()
-        {
-            try
-            {
-                double length = ValidUserInput("Enter length of rectangle: ");
-                double width = ValidUserInput("Enter width of rectangle: ");
-                double opacity = ValidOpacityInput();
-                Rectangle rectangle = new Rectangle(Program.nextShapeId++, length, width, opacity);
-                Program.shapes.Add(rectangle);
-
-                Console.WriteLine("\nNew Rectangle Added!");
-                ViewShape.ViewShapesByType<Rectangle>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            AddShapeMenu(); // Return to Add Shape menu
-        }
-
-        static void AddTriangle()
-        {
-            try
-            {
-                double sideA = ValidUserInput("Enter 1st side of triangle: ");
-                double sideB = ValidUserInput("Enter 2nd side of triangle: ");
-                double sideC = ValidUserInput("Enter 3rd side of triangle: ");
-                double opacity = ValidOpacityInput();
-                Triangle triangle = new Triangle(Program.nextShapeId++, sideA, sideB, sideC, opacity);
-                Program.shapes.Add(triangle);
-
-                Console.WriteLine("\nNew Triangle Added!");
-                ViewShape.ViewShapesByType<Triangle>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            AddShapeMenu(); 
-        }
-
-        static void AddSquare()
-        {
-            try
-            {
-                double side = ValidUserInput("Enter the side of square: ");
-                double opacity = ValidOpacityInput();
-                Square square = new Square(Program.nextShapeId++, side, opacity);
-                Program.shapes.Add(square);
-
-                Console.WriteLine("\nNew Square Added!");
-                ViewShape.ViewShapesByType<Square>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"error : {ex.Message}");
-            }
-            AddShapeMenu(); 
-        }
-
-        public static double ValidUserInput(string prompt = "Enter a number: ")
+        public static double GetDoubleInput(string prompt)
         {
             double value;
             while (true)
@@ -129,11 +76,11 @@ namespace A1DevPatel
                 if (double.TryParse(Console.ReadLine(), out value) && value > 0)
                     return value;
 
-                Console.WriteLine("Invalid ");
+                Console.WriteLine("Invalid input, please enter a positive number.");
             }
         }
 
-        public static double ValidOpacityInput(string prompt = "Enter opacity (0-1): ")
+        public static double GetOpacityValue(string prompt = "Enter opacity: ")
         {
             double opacity;
             while (true)
@@ -142,7 +89,7 @@ namespace A1DevPatel
                 if (double.TryParse(Console.ReadLine(), out opacity) && opacity >= 0 && opacity <= 1)
                     return opacity;
 
-                Console.WriteLine("Invalid ");
+                Console.WriteLine("Invalid,\n opacity must be between 0 and 1.");
             }
         }
     }

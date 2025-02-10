@@ -8,24 +8,18 @@ class Program
 {
     public static List<Shape> shapes = new List<Shape>();
     public static int nextShapeId = 1;
-
     static void Main()
     {
-        SampleData();
+        InitialiseSampleData();
         bool running = true;
         while (running)
         {
-            Console.Clear();
-            Console.WriteLine("Assignment #1 - Dev Patel");
-            Console.WriteLine("Assignment #1 - ID 991740023");
-            Console.WriteLine("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
-
-            Console.WriteLine("\tMain Menu\n");
+            Header();
+            Console.WriteLine("\n\n\tMain Menu\n");
             Console.WriteLine("\t1. Add Shape");
             Console.WriteLine("\t2. Edit Shape");
             Console.WriteLine("\t3. Delete Shape");
             Console.WriteLine("\t4. View Shapes");
-
             Console.WriteLine("\t5. Exit\n");
             Console.Write("Enter your choice: ");
 
@@ -61,7 +55,18 @@ class Program
         }
     }
 
-    static void SampleData()
+    public static void Header()
+    {
+        Console.Clear();
+        Console.WriteLine("Assignment #1 - Dev Patel");
+        Console.WriteLine("Assignment #1 - ID 991740023");
+        for (int i = 0; i < 50; i++) 
+        {
+            Console.Write("-+");
+        }
+    }
+
+    static void InitialiseSampleData()
     {
         shapes.Add(new Circle(nextShapeId++, 5, 0.8));
         shapes.Add(new Rectangle(nextShapeId++, 4, 6, 0.7));

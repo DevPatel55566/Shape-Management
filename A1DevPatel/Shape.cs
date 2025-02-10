@@ -6,13 +6,11 @@ namespace A1DevPatel
     {
         public int ShapeId { get; }
         public double Opacity { get; set; }
-
         protected Shape(int shapeId, double opacity)
         {
             ShapeId = shapeId;
             Opacity = opacity;
         }
-
         public abstract double GetArea();
         public abstract double GetPerimeter();
 

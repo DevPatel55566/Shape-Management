@@ -45,14 +45,15 @@ namespace A1DevPatel
                 table.Write();
             }
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            //Console.WriteLine("\nPress any key / enter Id to continue...");
+            //Console.ReadKey();
+            //Console.Clear();
         }
 
         public static void ViewShapesByType<T>() where T : Shape
         {
             string shapeName = typeof(T).Name;
-            var filteredShapes = Program.shapes.OfType<T>().ToList(); 
+            var filteredShapes = Program.shapes.OfType<T>().ToList();
             if (!filteredShapes.Any())
             {
                 Console.WriteLine($"No {shapeName}s found.");
@@ -66,10 +67,10 @@ namespace A1DevPatel
                 {
                     string dimensions = shape switch
                     {
-                        Square s => $"s={s.Side:F2}",
-                        Circle c => $"r={c.Radius:F2}",
-                        Rectangle r => $"l={r.Length:F2}, w={r.Width:F2}",
-                        Triangle t => $"a={t.SideA:F2}, b={t.SideB:F2}, c={t.SideC:F2}",
+                        Square s => $"{s.Side:F2}",
+                        Circle c => $"{c.Radius:F2}",
+                        Rectangle r => $"{r.Length:F2}, {r.Width:F2}",
+                        Triangle t => $"{t.SideA:F2}, {t.SideB:F2}, {t.SideC:F2}",
                         _ => "Unknown"
                     };
 
@@ -85,8 +86,9 @@ namespace A1DevPatel
                 table.Write();
             }
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            //Console.WriteLine("\nPress any key / enter ID to continue...");
+            //Console.ReadKey();
+            //Console.Clear();
         }
     }
 }
