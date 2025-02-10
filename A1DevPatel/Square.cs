@@ -1,18 +1,20 @@
-﻿using System;
-
-namespace A1DevPatel
+﻿namespace A1DevPatel
 {
     public class Square : Rectangle
     {
+        public Square(int shapeId, double side, double opacity)
+            : base(shapeId, side, side, opacity)
+        {
+        }
+
         public double Side
         {
-            get => Length;  
+            get => Length; // Since Length and Width are equal for a square
             set
             {
                 Length = value;
                 Width = value;
             }
         }
-        public Square(int shapeId, double side, double opacity): base(shapeId, side, side, opacity) { }
     }
 }

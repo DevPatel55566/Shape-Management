@@ -7,17 +7,17 @@ using ConsoleTables;
 
 namespace A1DevPatel
 {
-    class ViewShape
+    class DisplayShape
     {
-        public static void ViewShapes()
+        public static void DisplayShapes() //Method to display each shape present in a table
         {
             Console.WriteLine("\nAll Shapes:");
 
             var table = new ConsoleTable("ID", "Shape", "Dimensions", "Opacity", "Area", "Perimeter");
 
-            foreach (var shape in Program.shapes)
+            foreach (var shape in Program.Shapes)
             {
-                string dimensions = shape switch
+                string measurements = shape switch
                 {
                     Square s => $"{s.Side:F2}",
                     Circle c => $"{c.Radius:F2}",
@@ -29,14 +29,14 @@ namespace A1DevPatel
                 table.AddRow(
                     shape.ShapeId,
                     shape.GetType().Name,
-                    dimensions,
+                    measurements,
                     $"{shape.Opacity:P2}",
                     $"{shape.GetArea():F2}",
                     $"{shape.GetPerimeter():F2}"
                 );
             }
 
-            if (Program.shapes.Count == 0)
+            if (Program.Shapes.Count == 0)
             {
                 Console.WriteLine("No shapes found.");
             }
@@ -44,16 +44,14 @@ namespace A1DevPatel
             {
                 table.Write();
             }
-
-            //Console.WriteLine("\nPress any key / enter Id to continue...");
-            //Console.ReadKey();
-            //Console.Clear();
+            Console.WriteLine("\nPress any key to return to the main menu...");
+            Console.ReadKey();
         }
 
-        public static void ViewShapesByType<T>() where T : Shape
+        public static void DisplayShapesByCategory<T>() where T : Shape // Method to dsiplay each shape specifically
         {
             string shapeName = typeof(T).Name;
-            var filteredShapes = Program.shapes.OfType<T>().ToList();
+            var filteredShapes = Program.Shapes.OfType<T>().ToList();
             if (!filteredShapes.Any())
             {
                 Console.WriteLine($"No {shapeName}s found.");
@@ -86,9 +84,6 @@ namespace A1DevPatel
                 table.Write();
             }
 
-            //Console.WriteLine("\nPress any key / enter ID to continue...");
-            //Console.ReadKey();
-            //Console.Clear();
         }
     }
 }

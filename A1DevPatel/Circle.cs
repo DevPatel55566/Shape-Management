@@ -1,21 +1,16 @@
-﻿using System;
-
-namespace A1DevPatel
+﻿namespace A1DevPatel
 {
     public class Circle : Shape
     {
         public double Radius { get; set; }
-        public Circle(int shapeId, double radius, double opacity) : base(shapeId, opacity)
+
+        public Circle(int shapeId, double radius, double opacity)
+            : base(shapeId, ShapeType.Circle, opacity)
         {
             Radius = radius;
         }
-        public override double GetArea()
-        {
-            return Math.PI * Math.Pow(Radius, 2);
-        }
-        public override double GetPerimeter()
-        {
-            return 2 * Math.PI * Radius;
-        }
+
+        public override double GetArea() => Math.PI * Radius * Radius;
+        public override double GetPerimeter() => 2 * Math.PI * Radius;
     }
 }
